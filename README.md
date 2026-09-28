@@ -20,9 +20,6 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 
 ### UML textual:
 
-
-)
-
 > #### Classe: Veículos
 >
 > ##### Atributos:
@@ -161,3 +158,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - custo_total_caminhao( );
 > - custo_medio_caminhao( );
 > - quilo_media_caminhao( ); 
+
+#### Diagrama UML gerado a partir das informações acima:
+
+![](DiagramaUML.png)
