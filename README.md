@@ -20,6 +20,9 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 
 ### UML textual:
 
+![Diagrama UML gerado a partir desse arquivo](<img width="1484" height="746" alt="ChatGPT Image 28 de set  de 2026, 10_51_25" src="https://github.com/user-attachments/assets/23acbc70-dd55-4e9e-8a3d-4f3b900aff0a" />
+)
+
 > #### Classe: Veículos
 >
 > ##### Atributos:
