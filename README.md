@@ -161,4 +161,137 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 
 #### Diagrama UML gerado a partir das informações acima:
 
-![](DiagramaUML.png)
+```mermaid
+classDiagram
+
+class Veiculos {
+    +String placa
+    +String marca
+    +String modelo
+    +int ano
+    +String tipo
+    +float quilometragem
+    +float consumoMedio
+    +String status
+    +cadastrar_veiculo()
+    +alterar_status()
+    +registrar_eventos()
+}
+
+class Pessoa {
+    +String CPF
+    +String nome
+    +fazer_login()
+}
+
+class Alocacao {
+    +String origem
+    +String destino
+    +float distanciaPercorrida
+    +atualizar_quilometragem()
+    +registrar_viagem()
+}
+
+class Manutencao {
+    +String data
+    +String tipo
+    +float custo
+    +String descricao
+    +calcular_custo_manutencao()
+    +atualizar_status_veiculo()
+}
+
+class Abastecimento {
+    +String data
+    +String tipoCombustivel
+    +float litros
+    +float valorPago
+    +registrar_abastecimento()
+    +calcular_custo_abastecimento()
+    +calcular_consumo_medio()
+    +verificar_consumo()
+}
+
+class Politicas {
+    +bool padraoConsumo
+    +bool compatibilidadeCNHVeiculo
+    +bool verificarAlocacao
+    +bool quilometragemManutencaoPreventiva
+    +float custoPorTipoManutencao
+    +padrao_consumo()
+    +verificar_alocacao()
+    +manutencao_preventiva()
+    +custo_manu_tipo()
+    +compat_cnh()
+}
+
+class Relatorio {
+    +float custoTotalMedioManutencao
+    +list rankingEficiencia
+    +int totalViagensMotorista
+    +float quilometragemMediaVeiculo
+    +ranking_eficiencia()
+    +emitir_relatorio()
+}
+
+class Motorista {
+    +String categoriaCNH
+    +int tempoExperiencia
+    +bool disponibilidade
+    +list historicoViagens
+    +cadastrar_motorista()
+    +editar_info_motorista()
+}
+
+class Carro {
+    +String CNHEspecifica
+    +float custoTotalManutencao
+    +float custoMedioManutencao
+    +float quilometragemMedia
+    +custo_total_carro()
+    +custo_medio_carro()
+    +quilo_media_carro()
+}
+
+class Moto {
+    +String CNHEspecifica
+    +float custoTotalManutencao
+    +float custoMedioManutencao
+    +float quilometragemMedia
+    +custo_total_moto()
+    +custo_medio_moto()
+    +quilo_media_moto()
+}
+
+class Caminhao {
+    +String CNHEspecifica
+    +float custoTotalManutencao
+    +float custoMedioManutencao
+    +float quilometragemMedia
+    +custo_total_caminhao()
+    +custo_medio_caminhao()
+    +quilo_media_caminhao()
+}
+
+Pessoa <|-- Motorista
+
+Veiculos <|-- Carro
+Veiculos <|-- Moto
+Veiculos <|-- Caminhao
+
+Motorista "1" --> "0..*" Alocacao : realiza
+Veiculos "1" --> "0..*" Alocacao : utiliza
+
+Veiculos "1" --> "0..*" Manutencao : possui
+Veiculos "1" --> "0..*" Abastecimento : possui
+
+Politicas --> Veiculos : verifica
+Politicas --> Motorista : valida CNH
+Politicas --> Alocacao : verifica
+
+Relatorio --> Veiculos : analisa
+Relatorio --> Motorista : analisa
+Relatorio --> Manutencao : calcula
+Relatorio --> Alocacao : contabiliza
+Relatorio --> Abastecimento : analisa
+```
