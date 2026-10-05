@@ -27,15 +27,20 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - Marca: str;
 > - Modelo: str;
 > - Ano: int;
-> - Tipo (carro, moto, caminhão): str;
 > - Quilometragem: float;
 > - Consumo Médio (Km/L): float;
-> - Status (ativo, manutenção, inativo).
+> - Status (ativo, manutenção, inativo);
+> - Histórico de eventos: list.
 > 
 > ##### Métodos:
-> - cadastrar_veículo( );
-> - alterar_status( ):
-> - registrar_eventos( ).
+> - alterar_status(novo_status: StatusVeiculo): void;
+> - atualizar_quilometragem(): void;
+> - registrar_evento(): void;
+> - __str__(): str;
+> - __repr__(): str;
+> - __eq__(): bool;
+> - __lt__(): bool;
+> - __iter__(): Iterator.
 
 > #### Classe: Pessoa
 > 
@@ -44,17 +49,20 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - Nome: str.
 > 
 > ##### Métodos:
-> - fazer_login( ).
+> - __str__();
+> - __repr__().
 
 > #### Classe: Alocação
 > 
 > ##### Atributos:
+> - Motorista: Motorista;
+> - Veículo: Veículo;
 > - Origem: str;
 > - Destino: str;
-> - Distância percorrida: float.
+> - Distância percorrida: float;
+> - Combustível gasto: float.
 > 
 > ##### Métodos:
-> - atualizar_quilometragem( );
 > - registrar_viagem( ).
 
 > #### Classe: Manutenção
@@ -66,7 +74,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - Descrição: str.
 > 
 > ##### Métodos:
-> - atualizar_status_veículo( ).
+> - __str__().
 
 > #### Classe: Abastecimento
 > 
@@ -77,23 +85,21 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - Valor pago: float.
 > 
 > ##### Métodos:
-> - registrar_abastecimento( );
-> - calcular_consumo_medio( );
-> - verificar_consumo( ).
+> - __str__().
 
 > #### Classe: Políticas
 > 
 > ##### Atributos:
-> - Padrão de consumo: bool;
-> - Compatibilidade CNH-Veículo: bool;
-> - Verificar alocação: bool;
-> - Quilometragem para manutenção preventiva: bool;
-> - Custo por tipo de manutenção: float.
+> - Padrão de consumo: float;
+> - Compatibilidade CNH-Veículo: dict;
+> - Quilometragem para manutenção preventiva: float;
+> - Custo de manutenção: float.
 > 
 > ##### Métodos:
 > - verificar_alocacao( );
-> - manutencao_preventiva( );
-> - compat_cnh( ).
+> - verificar_manu_prev( );
+> - verificar_cnh( );
+> - verificar_consumo().
 
 > #### Classe: Relatório
 > 
@@ -105,6 +111,10 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > 
 > ##### Métodos:
 > - ranking_eficiencia( );
+> - custo_manu_tipo(): dict;
+> - total_viagens_motorista(): dict;
+> - quilometragem_media_tipo(): dict;
+> - relatorio_consumo(): list
 > - emitir_relatorio( ).
 
 > #### Classe: Motorista (*É uma pessoa*)
@@ -116,44 +126,50 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - Histórico de viagens.
 > 
 > ##### Métodos:
-> - cadastrar_motorista( );
-> - editar_info_motorista( );
+> - registrar_viagem();
+> - atualizar_disponibilidade();
+> - __str__().
 
 > #### Classe: Carro (*É um veículo*)
 > 
 > ##### Atributos:
-> - CNH específica: str;
-> - Custo total e médio de manutenção: float;
-> - Quilometragem média: float.
+> 
 > 
 > ##### Métodos:
-> - custo_total_carro( );
-> - custo_medio_carro( );
-> - quilo_media_carro( );
+
 
 > #### Classe: Moto (*É um veículo*)
 >
 > ##### Atributos:
-> - CNH específica: str;
-> - Custo total e médio de manutenção: float;
-> - Quilometragem média: float
+>
 > 
 > ##### Métodos:
-> - custo_total_moto( );
-> - custo_medio_moto( );
-> - quilo_media_moto( );
+
 
 > #### Classe: Caminhão (*É um veículo*)
 > 
 > ##### Atributos:
-> - CNH específica: str;
-> - Custo total e médio de manutenção: float;
-> - Quilometragem média: float
+> 
 > 
 > ##### Métodos:
-> - custo_total_caminhao( );
-> - custo_medio_caminhao( );
-> - quilo_media_caminhao( ); 
+
+> #### Classe: AbastecivelMixin
+>
+> ##### Atributos:
+> - Histórico de abastecimentos: list.
+>
+> ##### Métodos:
+> - abastecer();
+> - calcular_cons_medio().
+
+> #### Classe: ManutenivelMixin
+>
+> ##### Atributos:
+> - Histórico de manutenções: list.
+>
+> ##### Métodos:
+> - registrar_manutenção();
+> - alterar_status_manu().
 
 #### Diagrama UML gerado a partir das informações acima:
 
@@ -172,12 +188,17 @@ class Veiculos {
     +cadastrar_veiculo()
     +alterar_status()
     +registrar_eventos()
+    +__str__();
+    +__repr__();
+    +__eq__();
+    +__lt__();
 }
 
 class Pessoa {
     +String CPF
     +String nome
-    +fazer_login()
+    +__str__()
+    +__repr__()
 }
 
 class Alocacao {
@@ -231,38 +252,24 @@ class Motorista {
     +int tempoExperiencia
     +bool disponibilidade
     +list historicoViagens
-    +cadastrar_motorista()
-    +editar_info_motorista()
+    +registrar_viagem()
+    +atualizar_disponibilidade()
+    +__str__()
 }
 
 class Carro {
-    +String CNHEspecifica
-    +float custoTotalManutencao
-    +float custoMedioManutencao
-    +float quilometragemMedia
-    +custo_total_carro()
-    +custo_medio_carro()
-    +quilo_media_carro()
+    
+
 }
 
 class Moto {
-    +String CNHEspecifica
-    +float custoTotalManutencao
-    +float custoMedioManutencao
-    +float quilometragemMedia
-    +custo_total_moto()
-    +custo_medio_moto()
-    +quilo_media_moto()
+    
+
 }
 
 class Caminhao {
-    +String CNHEspecifica
-    +float custoTotalManutencao
-    +float custoMedioManutencao
-    +float quilometragemMedia
-    +custo_total_caminhao()
-    +custo_medio_caminhao()
-    +quilo_media_caminhao()
+    
+
 }
 
 Pessoa <|-- Motorista
