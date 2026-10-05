@@ -66,7 +66,6 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - Descrição: str.
 > 
 > ##### Métodos:
-> - calcular_custo_manutenção( );
 > - atualizar_status_veículo( ).
 
 > #### Classe: Abastecimento
@@ -79,7 +78,6 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > 
 > ##### Métodos:
 > - registrar_abastecimento( );
-> - calcular_custo_abastecimento( );
 > - calcular_consumo_medio( );
 > - verificar_consumo( ).
 
@@ -93,10 +91,8 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - Custo por tipo de manutenção: float.
 > 
 > ##### Métodos:
-> - padrao_consumo( );
 > - verificar_alocacao( );
 > - manutencao_preventiva( );
-> - custo_manu_tipo( );
 > - compat_cnh( ).
 
 > #### Classe: Relatório
@@ -128,7 +124,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > ##### Atributos:
 > - CNH específica: str;
 > - Custo total e médio de manutenção: float;
-> - Quilometragem média: float
+> - Quilometragem média: float.
 > 
 > ##### Métodos:
 > - custo_total_carro( );
@@ -197,7 +193,6 @@ class Manutencao {
     +String tipo
     +float custo
     +String descricao
-    +calcular_custo_manutencao()
     +atualizar_status_veiculo()
 }
 
@@ -207,7 +202,6 @@ class Abastecimento {
     +float litros
     +float valorPago
     +registrar_abastecimento()
-    +calcular_custo_abastecimento()
     +calcular_consumo_medio()
     +verificar_consumo()
 }
@@ -218,10 +212,8 @@ class Politicas {
     +bool verificarAlocacao
     +bool quilometragemManutencaoPreventiva
     +float custoPorTipoManutencao
-    +padrao_consumo()
     +verificar_alocacao()
     +manutencao_preventiva()
-    +custo_manu_tipo()
     +compat_cnh()
 }
 
