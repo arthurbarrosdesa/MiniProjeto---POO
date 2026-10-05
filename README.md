@@ -176,121 +176,140 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 ```mermaid
 classDiagram
 
-class Veiculos {
-    +String placa
-    +String marca
-    +String modelo
-    +int ano
-    +String tipo
-    +float quilometragem
-    +float consumoMedio
-    +String status
-    +cadastrar_veiculo()
-    +alterar_status()
-    +registrar_eventos()
-    +__str__();
-    +__repr__();
-    +__eq__();
-    +__lt__();
-}
+    class Veiculos {
+        -String placa
+        -String marca
+        -String modelo
+        -int ano
+        -float quilometragem
+        -float consumoMedio
+        -String status
+        -list historicoEventos
+        +alterar_status(novo_status: StatusVeiculo)
+        +atualizar_quilometragem()
+        +registrar_evento()
+        +__str__() str
+        +__repr__() str
+        +__eq__() bool
+        +__lt__() bool
+        +__iter__() Iterator
+    }
 
-class Pessoa {
-    +String CPF
-    +String nome
-    +__str__()
-    +__repr__()
-}
+    class Pessoa {
+        -String CPF
+        -String nome
+        +__str__() str
+        +__repr__() str
+    }
 
-class Alocacao {
-    +String origem
-    +String destino
-    +float distanciaPercorrida
-    +atualizar_quilometragem()
-    +registrar_viagem()
-}
+    class Motorista {
+        -String categoriaCNH
+        -int tempoExperiencia
+        -bool disponibilidade
+        -list historicoViagens
+        +registrar_viagem()
+        +atualizar_disponibilidade()
+        +__str__() str
+    }
 
-class Manutencao {
-    +String data
-    +String tipo
-    +float custo
-    +String descricao
-    +atualizar_status_veiculo()
-}
+    class Alocacao {
+        -Motorista motorista
+        -Veiculos veiculo
+        -String origem
+        -String destino
+        -float distanciaPercorrida
+        -float combustivelGasto
+        +registrar_viagem()
+    }
 
-class Abastecimento {
-    +String data
-    +String tipoCombustivel
-    +float litros
-    +float valorPago
-    +registrar_abastecimento()
-    +calcular_consumo_medio()
-    +verificar_consumo()
-}
+    class Manutencao {
+        -String data
+        -String tipo
+        -float custo
+        -String descricao
+        +__str__() str
+    }
 
-class Politicas {
-    +bool padraoConsumo
-    +bool compatibilidadeCNHVeiculo
-    +bool verificarAlocacao
-    +bool quilometragemManutencaoPreventiva
-    +float custoPorTipoManutencao
-    +verificar_alocacao()
-    +manutencao_preventiva()
-    +compat_cnh()
-}
+    class Abastecimento {
+        -String data
+        -String tipoCombustivel
+        -float litros
+        -float valorPago
+        +__str__() str
+    }
 
-class Relatorio {
-    +float custoTotalMedioManutencao
-    +list rankingEficiencia
-    +int totalViagensMotorista
-    +float quilometragemMediaVeiculo
-    +ranking_eficiencia()
-    +emitir_relatorio()
-}
+    class Politicas {
+        -float padraoConsumo
+        -dict compatibilidadeCNHVeiculo
+        -float quilometragemManutencaoPreventiva
+        -float custoManutencao
+        +verificar_alocacao()
+        +verificar_manu_prev()
+        +verificar_cnh()
+        +verificar_consumo()
+    }
 
-class Motorista {
-    +String categoriaCNH
-    +int tempoExperiencia
-    +bool disponibilidade
-    +list historicoViagens
-    +registrar_viagem()
-    +atualizar_disponibilidade()
-    +__str__()
-}
+    class Relatorio {
+        -float custoTotalMedioManutencao
+        -list rankingEficiencia
+        -int totalViagensMotorista
+        -float quilometragemMediaTipo
+        +ranking_eficiencia()
+        +custo_manu_tipo() dict
+        +total_viagens_motorista() dict
+        +quilometragem_media_tipo() dict
+        +relatorio_consumo() list
+        +emitir_relatorio()
+    }
 
-class Carro {
-    
+    class Carro {
+    }
 
-}
+    class Moto {
+    }
 
-class Moto {
-    
+    class Caminhao {
+    }
 
-}
+    class AbastecivelMixin {
+        -list historicoAbastecimentos
+        +abastecer()
+        +calcular_cons_medio()
+    }
 
-class Caminhao {
-    
+    class ManutenivelMixin {
+        -list historicoManutencoes
+        +registrar_manutencao()
+        +alterar_status_manu()
+    }
 
-}
+    Pessoa <|-- Motorista
 
-Pessoa <|-- Motorista
+    Veiculos <|-- Carro
+    Veiculos <|-- Moto
+    Veiculos <|-- Caminhao
 
-Veiculos <|-- Carro
-Veiculos <|-- Moto
-Veiculos <|-- Caminhao
+    AbastecivelMixin <|.. Carro
+    AbastecivelMixin <|.. Moto
+    AbastecivelMixin <|.. Caminhao
 
-Motorista "1" --> "0..*" Alocacao : realiza
-Veiculos "1" --> "0..*" Alocacao : utiliza
+    ManutenivelMixin <|.. Carro
+    ManutenivelMixin <|.. Moto
+    ManutenivelMixin <|.. Caminhao
 
-Veiculos "1" --> "0..*" Manutencao : possui
-Veiculos "1" --> "0..*" Abastecimento : possui
+    Motorista "1" --> "0..*" Alocacao : realiza
+    Veiculos "1" --> "0..*" Alocacao : utiliza
 
-Politicas --> Veiculos : verifica
-Politicas --> Motorista : valida CNH
-Politicas --> Alocacao : verifica
+    Veiculos "1" --> "0..*" Manutencao : possui
+    Veiculos "1" --> "0..*" Abastecimento : possui
 
-Relatorio --> Veiculos : analisa
-Relatorio --> Motorista : analisa
-Relatorio --> Manutencao : calcula
-Relatorio --> Alocacao : contabiliza
-Relatorio --> Abastecimento : analisa
+    Politicas --> Veiculos : verifica
+    Politicas --> Motorista : valida CNH
+    Politicas --> Alocacao : verifica
+
+    Relatorio --> Veiculos : analisa
+    Relatorio --> Motorista : analisa
+    Relatorio --> Manutencao : calcula
+    Relatorio --> Abastecimento : analisa
+    Relatorio --> Alocacao : contabiliza
 ```
