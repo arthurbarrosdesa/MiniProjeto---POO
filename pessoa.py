@@ -1,6 +1,6 @@
 class Pessoa:
     """
-    Classe "Pessoa" é usada para armazenar as informações de usuários de modo geral.
+    Classe "Pessoa" representa uma pessoa no sistema.
 
     Atributos:
     CPF;
@@ -15,10 +15,10 @@ class Pessoa:
         self.__cpf = cpf
         self.__nome = nome
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Pessoa: {self.__nome} (CPF: {self.__cpf})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Pessoa(cpf='{self.__cpf}', nome='{self.__nome}')"
 
     @property
@@ -32,7 +32,7 @@ class Pessoa:
 
 class Motorista(Pessoa):
     """
-    Classe "Motorista" armazena informações específicas para motoristas.
+    Classe "Motorista" representa um motorista no sistema.
 
     Atributos:
     Categoria CNH;
@@ -87,5 +87,5 @@ class Motorista(Pessoa):
         """
         self.__disponibilidade = nova_disponibilidade
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Motorista: {self.nome} (CPF: {self.cpf}) - Categoria CNH: {self.categoria_cnh} - Experiência: {self.tempo_experiencia} anos - Disponível: {'Sim' if self.disponibilidade else 'Não'}"

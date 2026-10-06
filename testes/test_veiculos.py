@@ -227,3 +227,11 @@ def test_historico_eventos_inicialmente_vazio():
         )
 
     assert veiculo.historico_eventos == []
+
+def test_nao_criar_veiculo_com_quilometragem_negativa():
+    with pytest.raises(ValueError):
+        Veiculo("ABC1234", "Fiat", "Uno", 2020, -100, 12.0)
+
+def test_nao_criar_veiculo_com_consumo_invalido():
+    with pytest.raises(ValueError):
+        Veiculo("DEF5678", "Ford", "Ka", 2021, 10000, 0)

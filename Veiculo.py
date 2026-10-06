@@ -54,7 +54,11 @@ class Veiculo:
         self.__marca = marca
         self.__modelo = modelo
         self.__ano = ano
+        if quilometragem < 0:
+          raise ValueError("A quilometragem não pode ser negativa.")
         self.__quilometragem = quilometragem
+        if consumo_medio <= 0:
+          raise ValueError("O consumo médio deve ser maior que zero.")
         self.__consumo_medio = consumo_medio
         self.__status = status
         self.__historico_eventos = []
