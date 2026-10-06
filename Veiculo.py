@@ -1,4 +1,7 @@
-class StatusVeiculo:
+from enum import Enum
+
+
+class StatusVeiculo(Enum):
 
     """
     Classe "StatusVeiculo" armazena os status possíveis para veículos.
@@ -46,15 +49,15 @@ class Veiculo:
     iter(): Iterator.
     """
 
-    def __init__(self, placa: str, marca: str, modelo: str, ano: int, tipo: str, quilometragem: float, consumo_medio: float, status: str):
+    def __init__(self, placa: str, marca: str, modelo: str, ano: int, quilometragem: float, consumo_medio: float, status: StatusVeiculo = StatusVeiculo.ATIVO):
         self.__placa = placa
         self.__marca = marca
         self.__modelo = modelo
         self.__ano = ano
-        self.__tipo = tipo
         self.__quilometragem = quilometragem
         self.__consumo_medio = consumo_medio
         self.__status = status
+        self.__historico_eventos = []
 
     @property
     def placa(self) -> str:
@@ -73,10 +76,6 @@ class Veiculo:
         return self.__ano
 
     @property
-    def tipo(self) -> str:
-        return self.__tipo
-
-    @property
     def quilometragem(self) -> float:
         return self.__quilometragem
 
@@ -87,6 +86,10 @@ class Veiculo:
     @property
     def status(self) -> str:
         return self.__status
+
+    @property
+    def historico_eventos(self) -> list:
+        return self.__historico_eventos
 
     def alterar_status(self, novo_status: StatusVeiculo) -> None:
         """
@@ -104,6 +107,8 @@ class Veiculo:
         Parâmetros:
         nova_quilometragem (float): Nova quilometragem do veículo.
         """
+        if nova_quilometragem < 0:
+            raise ValueError("A quilometragem não pode ser negativa.")
         self.__quilometragem = nova_quilometragem
 
     def registrar_evento(self, evento: str) -> None:
@@ -114,13 +119,13 @@ class Veiculo:
         evento (str): Descrição do evento.
         """
         # Implementação para registrar o evento (pode ser armazenado em uma lista ou banco de dados)
-        pass
+        self.__historico_eventos.append(evento)
 
     def __str__(self) -> str:
-        return f"Veículo: {self.marca} {self.modelo} ({self.ano}) - Placa: {self.placa} - Tipo: {self.tipo} - Quilometragem: {self.quilometragem} km - Consumo Médio: {self.consumo_medio} km/L - Status: {self.status}"
+        return f"Veículo: {self.marca} {self.modelo} ({self.ano}) - Placa: {self.placa} - Quilometragem: {self.quilometragem} km - Consumo Médio: {self.consumo_medio} km/L - Status: {self.status}"
 
     def __repr__(self) -> str:
-        return f"Veiculo(placa='{self.placa}', marca='{self.marca}', modelo='{self.modelo}', ano={self.ano}, tipo='{self.tipo}', quilometragem={self.quilometragem}, consumo_medio={self.consumo_medio}, status='{self.status}')"
+        return f"Veiculo(placa='{self.placa}', marca='{self.marca}', modelo='{self.modelo}', ano={self.ano}, quilometragem={self.quilometragem}, consumo_medio={self.consumo_medio}, status='{self.status}')"
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Veiculo):
@@ -129,18 +134,11 @@ class Veiculo:
 
     def __lt__(self, other) -> bool:
         if isinstance(other, Veiculo):
-            return self.ano < other.ano
+            return self.quilometragem < other.quilometragem
         return NotImplemented
 
     def __iter__(self):
-        yield self.placa
-        yield self.marca
-        yield self.modelo
-        yield self.ano
-        yield self.tipo
-        yield self.quilometragem
-        yield self.consumo_medio
-        yield self.status
+        return iter(self.__historico_eventos)
 
 
 class Carro(Veiculo):
@@ -183,8 +181,3 @@ class Caminhao(Veiculo):
 
   """
     pass
-
-
-carro = Carro("ABC-1234", "Toyota", "Corolla", 2022, 10000, 12.5)
-
-print(carro)
