@@ -1,20 +1,17 @@
-Class Alocacao:
+class Alocacao:
 
-"""
-Classe "Alocacao" armazena os dados nescessários para registrar uma alocação.
+    """
+    Classe "Alocacao" armazena os dados nescessários para registrar uma alocação.
 
-Atributos:
-Origem;
-Destino;
-Distância percorrida.
+    Atributos:
+    Origem;
+    Destino;
+    Distância percorrida.
 
-Métodos:
-atualizar_quilometragem( );
-registrar_viagem( ).
-"""
-
-def atualizar_quilometragem(self):
+    Métodos:
+    realizar_viagem( ).
+    """
 
 
-def registrar viagem(self):
+    def realizar_viagem(self):
 

@@ -63,7 +63,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - Combustível gasto: float.
 > 
 > ##### Métodos:
-> - registrar_viagem( ).
+> - realizar_viagem( ).
 
 > #### Classe: Manutenção
 > 
@@ -219,7 +219,7 @@ classDiagram
         -String destino
         -float distanciaPercorrida
         -float combustivelGasto
-        +registrar_viagem()
+        +realizar_viagem()
     }
 
     class Manutencao {
