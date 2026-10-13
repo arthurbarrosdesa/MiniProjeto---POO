@@ -16,11 +16,12 @@ Desenvolver um sistema de linha de comando (CLI) ou uma API mínima (FastAPI ou 
 O sistema deve permitir o cadastro de veículos, controle de manutenções, alocação a motoristas, registro de abastecimentos, cálculo de custos médios e relatórios de desempenho. O sistema deve aplicar conceitos de encapsulamento, herança (simples e múltipla), métodos especiais, regras de negócio configuráveis. A persistência pode ser feita em JSON ou SQLite, com um repositório desacoplado do domínio.
 
 ---
-## Modelagem OO
+## Modelagem Orientada a Objetos
 
 ### UML textual:
 
-> #### Classe: Veículos
+> #### Classe: Veiculo
+> Classe-base que representa os veículos da frota.
 >
 > ##### Atributos:
 > - Placa: str;
@@ -43,6 +44,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - __iter__(): Iterator.
 
 > #### Classe: Pessoa
+> Representa uma pessoa no sistema.
 > 
 > ##### Atributos:
 > - CPF: str;
@@ -53,6 +55,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - __repr__().
 
 > #### Classe: Alocação
+> Responsável por relacionar motoristas e veículos às viagens.
 > 
 > ##### Atributos:
 > - Motorista: Motorista;
@@ -66,6 +69,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - realizar_viagem( ).
 
 > #### Classe: Manutenção
+> Responsável por registrar manutenções preventivas e corretivas.
 > 
 > ##### Atributos:
 > - Data: str;
@@ -77,6 +81,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - __str__().
 
 > #### Classe: Abastecimento
+> Responsável por registrar os abastecimentos realizados.
 > 
 > ##### Atributos:
 > - Data: str;
@@ -88,6 +93,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - __str__().
 
 > #### Classe: Políticas
+> Responsável por centralizar regras e parâmetros configuráveis.
 > 
 > ##### Atributos:
 > - Padrão de consumo: float;
@@ -102,6 +108,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - verificar_consumo().
 
 > #### Classe: Relatório
+> Responsável por apresentar informações relevantes sobre a frota.
 > 
 > ##### Atributos:
 > - Custo total e médio de manutenção por tipo de veículo: float;
@@ -118,6 +125,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - emitir_relatorio( ).
 
 > #### Classe: Motorista (*É uma pessoa*)
+> Subclasse de Pessoa, representa um motorista cadastrado no sistema.
 > 
 > ##### Atributos:
 > - Categoria CNH: str;
@@ -132,28 +140,19 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 
 > #### Classe: Carro (*É um veículo*)
 > 
-> ##### Atributos:
-> 
-> 
-> ##### Métodos:
-
+> ##### Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais.
 
 > #### Classe: Moto (*É um veículo*)
 >
-> ##### Atributos:
->
-> 
-> ##### Métodos:
+> ##### Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais.
 
 
 > #### Classe: Caminhão (*É um veículo*)
 > 
-> ##### Atributos:
-> 
-> 
-> ##### Métodos:
+> ##### Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais.
 
 > #### Classe: AbastecivelMixin
+> Responsável pelas operações de abastecimento e pelo histórico de abastecimentos.
 >
 > ##### Atributos:
 > - Histórico de abastecimentos: list.
@@ -163,6 +162,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - calcular_cons_medio().
 
 > #### Classe: ManutenivelMixin
+> Responsável pelo registro de manutenções e pelo controle relacionado à manutenção dos veículos.
 >
 > ##### Atributos:
 > - Histórico de manutenções: list.
@@ -176,14 +176,14 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 ```mermaid
 classDiagram
 
-    class Veiculos {
+    class Veiculo {
         -String placa
         -String marca
         -String modelo
         -int ano
         -float quilometragem
         -float consumoMedio
-        -String status
+        -Enum status
         -list historicoEventos
         +alterar_status(novo_status: StatusVeiculo)
         +atualizar_quilometragem()
@@ -214,7 +214,7 @@ classDiagram
 
     class Alocacao {
         -Motorista motorista
-        -Veiculos veiculo
+        -Veiculo veiculo
         -String origem
         -String destino
         -float distanciaPercorrida
