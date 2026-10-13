@@ -1,4 +1,4 @@
-from pessoa import Pessoa, Motorista
+from src.pessoa import Pessoa, Motorista
 
 def test_criar_pessoa():
     pessoa = Pessoa("12345678900", "Arthur")

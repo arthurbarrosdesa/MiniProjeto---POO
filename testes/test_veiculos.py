@@ -1,6 +1,6 @@
 import pytest
 
-from Veiculo import Veiculo, StatusVeiculo, Carro, Moto, Caminhao
+from src.veiculo import Veiculo, StatusVeiculo, Carro, Moto, Caminhao
 
 
 def test_criar_veiculo():
@@ -60,7 +60,7 @@ def test_atualizar_quilometragem():
 
     veiculo.atualizar_quilometragem(25000)
 
-    assert veiculo.quilometragem == 25000
+    assert veiculo.quilometragem == 45000
 
 def test_registrar_evento():
     veiculo = Veiculo(

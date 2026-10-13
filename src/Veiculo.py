@@ -104,7 +104,7 @@ class Veiculo:
         Altera o status do veículo.
 
         Parâmetros:
-        novo_status (str): Novo status do veículo.
+        novo_status (StatusVeiculo): Novo status do veículo.
         """
         if not isinstance(novo_status, StatusVeiculo):
             raise TypeError("O status deve ser um valor de StatusVeiculo.")
@@ -135,7 +135,7 @@ class Veiculo:
         return f"Veículo: {self.marca} {self.modelo} ({self.ano}) - Placa: {self.placa} - Quilometragem: {self.quilometragem} km - Consumo Médio: {self.consumo_medio} km/L - Status: {self.status.value}"
 
     def __repr__(self) -> str:
-        return f"Veiculo(placa='{self.placa}', marca={self.marca!r}, modelo={self.modelo!r}, ano={self.ano}, quilometragem={self.quilometragem}, consumo_medio={self.consumo_medio}, status={self.status!r})"
+        return f"Veiculo(placa={self.placa!r}, marca={self.marca!r}, modelo={self.modelo!r}, ano={self.ano}, quilometragem={self.quilometragem}, consumo_medio={self.consumo_medio}, status={self.status!r})"
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Veiculo):
