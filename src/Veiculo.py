@@ -33,7 +33,6 @@ class Veiculo:
     Marca;
     Modelo;
     Ano;
-    Tipo (carro, moto, caminhão);
     Quilometragem;
     Consumo Médio (Km/L);
     Status (ativo, manutenção, inativo).
@@ -49,17 +48,22 @@ class Veiculo:
     iter(): Iterator.
     """
 
-    def __init__(self, placa: str, marca: str, modelo: str, ano: int, quilometragem: float, consumo_medio: float, status: StatusVeiculo = StatusVeiculo.ATIVO):
+    def __init__(self, placa: str, marca: str, modelo: str, ano: int, quilometragem: float, 
+                 consumo_medio: float, status: StatusVeiculo = StatusVeiculo.ATIVO):
         self.__placa = placa
         self.__marca = marca
         self.__modelo = modelo
+        if ano < 0:
+            raise ValueError("O ano não pode ser negativo.")
         self.__ano = ano
         if quilometragem < 0:
-          raise ValueError("A quilometragem não pode ser negativa.")
+            raise ValueError("A quilometragem não pode ser negativa.")
         self.__quilometragem = quilometragem
         if consumo_medio <= 0:
-          raise ValueError("O consumo médio deve ser maior que zero.")
+            raise ValueError("O consumo médio deve ser maior que zero.")
         self.__consumo_medio = consumo_medio
+        if not isinstance(status, StatusVeiculo):
+            raise TypeError("O status deve ser um valor de StatusVeiculo.")
         self.__status = status
         self.__historico_eventos = []
 
@@ -88,7 +92,7 @@ class Veiculo:
         return self.__consumo_medio
 
     @property
-    def status(self) -> str:
+    def status(self) -> StatusVeiculo:
         return self.__status
 
     @property
@@ -102,18 +106,20 @@ class Veiculo:
         Parâmetros:
         novo_status (str): Novo status do veículo.
         """
+        if not isinstance(novo_status, StatusVeiculo):
+            raise TypeError("O status deve ser um valor de StatusVeiculo.")
         self.__status = novo_status
 
-    def atualizar_quilometragem(self, nova_quilometragem: float) -> None:
+    def atualizar_quilometragem(self, quilom_viagem: float) -> None:
         """
-        Atualiza a quilometragem do veículo.
+        Atualiza a quilometragem do veículo, acrescentando a quilometragem percorrida na última viagem.
 
         Parâmetros:
-        nova_quilometragem (float): Nova quilometragem do veículo.
+        quilom_viagem (float): Quilometragem percorrida pelo veículo na última viagem registrada.
         """
-        if nova_quilometragem < 0:
+        if quilom_viagem < 0:
             raise ValueError("A quilometragem não pode ser negativa.")
-        self.__quilometragem = nova_quilometragem
+        self.__quilometragem += quilom_viagem
 
     def registrar_evento(self, evento: str) -> None:
         """
@@ -122,14 +128,14 @@ class Veiculo:
         Parâmetros:
         evento (str): Descrição do evento.
         """
-        # Implementação para registrar o evento (pode ser armazenado em uma lista ou banco de dados)
+        # Implementação para registrar o evento (Futuramente será armazenado no banco de dados. Atualmente é registrado numa lista.)
         self.__historico_eventos.append(evento)
 
     def __str__(self) -> str:
-        return f"Veículo: {self.marca} {self.modelo} ({self.ano}) - Placa: {self.placa} - Quilometragem: {self.quilometragem} km - Consumo Médio: {self.consumo_medio} km/L - Status: {self.status}"
+        return f"Veículo: {self.marca} {self.modelo} ({self.ano}) - Placa: {self.placa} - Quilometragem: {self.quilometragem} km - Consumo Médio: {self.consumo_medio} km/L - Status: {self.status.value}"
 
     def __repr__(self) -> str:
-        return f"Veiculo(placa='{self.placa}', marca='{self.marca}', modelo='{self.modelo}', ano={self.ano}, quilometragem={self.quilometragem}, consumo_medio={self.consumo_medio}, status='{self.status}')"
+        return f"Veiculo(placa='{self.placa}', marca={self.marca!r}, modelo={self.modelo!r}, ano={self.ano}, quilometragem={self.quilometragem}, consumo_medio={self.consumo_medio}, status={self.status!r})"
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Veiculo):
@@ -141,7 +147,7 @@ class Veiculo:
             return self.quilometragem < other.quilometragem
         return NotImplemented
 
-    def __iter__(self):
+    def __iter__(self): # Futuramente irá iterar sobre o histórico de manutenções. Atualmente itera sobre o histórico de eventos.
         return iter(self.__historico_eventos)
 
 
@@ -150,10 +156,7 @@ class Carro(Veiculo):
     """
     Classe "Carro" armazena os dados específicos para carros.
 
-    Atributos:
-
-
-    Métodos:
+    <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
 
     """
     pass
@@ -164,10 +167,7 @@ class Moto(Veiculo):
     """
     Classe "Moto" armazena os dados específicos para motos.
 
-    Atributos:
-
-
-    Métodos:
+    <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
 
     """
     pass
@@ -178,10 +178,7 @@ class Caminhao(Veiculo):
     """
     Classe "Caminhao" armazena os dados específicos para caminhões.
 
-    Atributos:
+    <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
 
-
-    Métodos:
-
-  """
+    """
     pass

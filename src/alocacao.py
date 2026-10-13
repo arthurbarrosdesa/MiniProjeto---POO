@@ -14,4 +14,5 @@ class Alocacao:
 
 
     def realizar_viagem(self):
+        pass
 

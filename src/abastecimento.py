@@ -16,6 +16,6 @@ class Abastecimento:
     """
 
     def __str__(self):
-        return None
+        pass
 
 

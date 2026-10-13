@@ -18,15 +18,19 @@ class Politicas:
     """
 
     def verificar_consumo(self):
+        pass
 
 
     def verificar_alocacao(self):
+        pass
 
 
     def verificar_manu_prev(self):
+        pass
 
 
     def verificar_cnh(self):
+        pass
 
 
 

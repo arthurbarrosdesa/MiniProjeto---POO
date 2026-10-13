@@ -19,21 +19,27 @@ class Relatorio:
     """
 
     def ranking_eficiencia(self):
+        pass
 
 
     def emitir_relatorio(self):
+        pass
     
 
     def custo_manu_tipo(self):
+        pass
     
 
     def total_viagens_motorista(self):
+        pass
     
 
     def quilometragem_media_tipo(self):
+        pass
     
 
     def relatorio_consumo(self):
+        pass
 
     
 

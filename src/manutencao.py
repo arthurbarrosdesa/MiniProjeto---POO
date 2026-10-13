@@ -15,4 +15,5 @@ class Manutencao:
     """
 
     def __str__(self):
+        pass
 
