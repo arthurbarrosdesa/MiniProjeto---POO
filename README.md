@@ -16,11 +16,12 @@ Desenvolver um sistema de linha de comando (CLI) ou uma API mínima (FastAPI ou 
 O sistema deve permitir o cadastro de veículos, controle de manutenções, alocação a motoristas, registro de abastecimentos, cálculo de custos médios e relatórios de desempenho. O sistema deve aplicar conceitos de encapsulamento, herança (simples e múltipla), métodos especiais, regras de negócio configuráveis. A persistência pode ser feita em JSON ou SQLite, com um repositório desacoplado do domínio.
 
 ---
-## Modelagem OO
+## Modelagem Orientada a Objetos
 
 ### UML textual:
 
-> #### Classe: Veículos
+> #### Classe: Veiculo
+> Classe-base que representa os veículos da frota.
 >
 > ##### Atributos:
 > - Placa: str;
@@ -43,6 +44,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - __iter__(): Iterator.
 
 > #### Classe: Pessoa
+> Representa uma pessoa no sistema.
 > 
 > ##### Atributos:
 > - CPF: str;
@@ -53,6 +55,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - __repr__().
 
 > #### Classe: Alocação
+> Responsável por relacionar motoristas e veículos às viagens.
 > 
 > ##### Atributos:
 > - Motorista: Motorista;
@@ -66,6 +69,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - realizar_viagem( ).
 
 > #### Classe: Manutenção
+> Responsável por registrar manutenções preventivas e corretivas.
 > 
 > ##### Atributos:
 > - Data: str;
@@ -77,6 +81,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - __str__().
 
 > #### Classe: Abastecimento
+> Responsável por registrar os abastecimentos realizados.
 > 
 > ##### Atributos:
 > - Data: str;
@@ -88,6 +93,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - __str__().
 
 > #### Classe: Políticas
+> Responsável por centralizar regras e parâmetros configuráveis.
 > 
 > ##### Atributos:
 > - Padrão de consumo: float;
@@ -102,6 +108,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - verificar_consumo().
 
 > #### Classe: Relatório
+> Responsável por apresentar informações relevantes sobre a frota.
 > 
 > ##### Atributos:
 > - Custo total e médio de manutenção por tipo de veículo: float;
@@ -118,6 +125,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - emitir_relatorio( ).
 
 > #### Classe: Motorista (*É uma pessoa*)
+> Subclasse de Pessoa, representa um motorista cadastrado no sistema.
 > 
 > ##### Atributos:
 > - Categoria CNH: str;
@@ -132,28 +140,19 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 
 > #### Classe: Carro (*É um veículo*)
 > 
-> ##### Atributos:
-> 
-> 
-> ##### Métodos:
-
+> ##### Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais.
 
 > #### Classe: Moto (*É um veículo*)
 >
-> ##### Atributos:
->
-> 
-> ##### Métodos:
+> ##### Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais.
 
 
 > #### Classe: Caminhão (*É um veículo*)
 > 
-> ##### Atributos:
-> 
-> 
-> ##### Métodos:
+> ##### Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais.
 
 > #### Classe: AbastecivelMixin
+> Responsável pelas operações de abastecimento e pelo histórico de abastecimentos.
 >
 > ##### Atributos:
 > - Histórico de abastecimentos: list.
@@ -163,6 +162,7 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 > - calcular_cons_medio().
 
 > #### Classe: ManutenivelMixin
+> Responsável pelo registro de manutenções e pelo controle relacionado à manutenção dos veículos.
 >
 > ##### Atributos:
 > - Histórico de manutenções: list.
@@ -176,73 +176,84 @@ O sistema deve permitir o cadastro de veículos, controle de manutenções, aloc
 ```mermaid
 classDiagram
 
-    class Veiculos {
-        -String placa
-        -String marca
-        -String modelo
-        -int ano
-        -float quilometragem
-        -float consumoMedio
-        -String status
-        -list historicoEventos
-        +alterar_status(novo_status: StatusVeiculo)
-        +atualizar_quilometragem()
-        +registrar_evento()
-        +__str__() str
-        +__repr__() str
-        +__eq__() bool
-        +__lt__() bool
-        +__iter__() Iterator
+    class StatusVeiculo {
+        <<enumeration>>
+        ATIVO
+        MANUTENCAO
+        INATIVO
     }
 
+    class Veiculo {
+        -str placa
+        -str marca
+        -str modelo
+        -int ano
+        -float quilometragem
+        -float consumo_medio
+        -StatusVeiculo status
+        -list historico_eventos
+        +alterar_status(novo_status: StatusVeiculo) None
+        +atualizar_quilometragem(nova_quilometragem: float) None
+        +registrar_evento(evento: str) None
+        +__str__() str
+        +__repr__() str
+        +__eq__(other) bool
+        +__lt__(other) bool
+        +__iter__()
+    }
+
+    class Carro
+    class Moto
+    class Caminhao
+
     class Pessoa {
-        -String CPF
-        -String nome
+        -str cpf
+        -str nome
         +__str__() str
         +__repr__() str
     }
 
     class Motorista {
-        -String categoriaCNH
-        -int tempoExperiencia
+        -str categoria_cnh
+        -int tempo_experiencia
         -bool disponibilidade
-        -list historicoViagens
-        +registrar_viagem()
-        +atualizar_disponibilidade()
+        -list historico_viagens
+        +registrar_viagem(viagem: str) None
+        +atualizar_disponibilidade(nova_disponibilidade: bool) None
         +__str__() str
     }
 
     class Alocacao {
         -Motorista motorista
-        -Veiculos veiculo
-        -String origem
-        -String destino
-        -float distanciaPercorrida
-        -float combustivelGasto
+        -Veiculo veiculo
+        -str origem
+        -str destino
+        -float distancia_percorrida
+        -float combustivel_gasto
         +realizar_viagem()
     }
 
     class Manutencao {
-        -String data
-        -String tipo
+        -str data
+        -str tipo
         -float custo
-        -String descricao
+        -str descricao
         +__str__() str
     }
 
     class Abastecimento {
-        -String data
-        -String tipoCombustivel
+        -str data
+        -str tipo_combustivel
         -float litros
-        -float valorPago
+        -float valor_pago
         +__str__() str
     }
 
     class Politicas {
-        -float padraoConsumo
-        -dict compatibilidadeCNHVeiculo
-        -float quilometragemManutencaoPreventiva
-        -float custoManutencao
+        -float padrao_consumo
+        -dict compatibilidade_cnh_veiculo
+        -float quilometragem_manutencao_preventiva
+        -float custo_manutencao
         +verificar_alocacao()
         +verificar_manu_prev()
         +verificar_cnh()
@@ -250,10 +261,10 @@ classDiagram
     }
 
     class Relatorio {
-        -float custoTotalMedioManutencao
-        -list rankingEficiencia
-        -int totalViagensMotorista
-        -float quilometragemMediaTipo
+        -float custo_total_medio_manutencao
+        -list ranking_eficiencia
+        -int total_viagens_motorista
+        -float quilometragem_media_tipo
         +ranking_eficiencia()
         +custo_manu_tipo() dict
         +total_viagens_motorista() dict
@@ -262,54 +273,48 @@ classDiagram
         +emitir_relatorio()
     }
 
-    class Carro {
-    }
-
-    class Moto {
-    }
-
-    class Caminhao {
-    }
-
     class AbastecivelMixin {
-        -list historicoAbastecimentos
+        -list historico_abastecimentos
         +abastecer()
         +calcular_cons_medio()
     }
 
     class ManutenivelMixin {
-        -list historicoManutencoes
+        -list historico_manutencoes
         +registrar_manutencao()
         +alterar_status_manu()
     }
 
+    Veiculo --> StatusVeiculo : utiliza
+
+    Veiculo <|-- Carro
+    Veiculo <|-- Moto
+    Veiculo <|-- Caminhao
+
     Pessoa <|-- Motorista
 
-    Veiculos <|-- Carro
-    Veiculos <|-- Moto
-    Veiculos <|-- Caminhao
+    AbastecivelMixin <|-- Carro
+    AbastecivelMixin <|-- Moto
+    AbastecivelMixin <|-- Caminhao
 
-    AbastecivelMixin <|.. Carro
-    AbastecivelMixin <|.. Moto
-    AbastecivelMixin <|.. Caminhao
-
-    ManutenivelMixin <|.. Carro
-    ManutenivelMixin <|.. Moto
-    ManutenivelMixin <|.. Caminhao
+    ManutenivelMixin <|-- Carro
+    ManutenivelMixin <|-- Moto
+    ManutenivelMixin <|-- Caminhao
 
     Motorista "1" --> "0..*" Alocacao : realiza
-    Veiculos "1" --> "0..*" Alocacao : utiliza
+    Veiculo "1" --> "0..*" Alocacao : utiliza
 
-    Veiculos "1" --> "0..*" Manutencao : possui
-    Veiculos "1" --> "0..*" Abastecimento : possui
+    Veiculo "1" --> "0..*" Manutencao : possui
+    Veiculo "1" --> "0..*" Abastecimento : possui
 
-    Politicas --> Veiculos : verifica
+    Politicas --> Veiculo : verifica
     Politicas --> Motorista : valida CNH
     Politicas --> Alocacao : verifica
 
-    Relatorio --> Veiculos : analisa
+    Relatorio --> Veiculo : analisa
     Relatorio --> Motorista : analisa
     Relatorio --> Manutencao : calcula
     Relatorio --> Abastecimento : analisa
     Relatorio --> Alocacao : contabiliza
+```
 ```
