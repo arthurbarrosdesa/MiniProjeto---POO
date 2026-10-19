@@ -99,6 +99,29 @@ class Veiculo:
     def historico_eventos(self) -> list:
         return self.__historico_eventos
 
+    def to_dict(self) -> dict:
+        return {
+            "placa": self.placa,
+            "marca": self.marca,
+            "modelo": self.modelo,
+            "ano": self.ano,
+            "quilometragem": self.quilometragem,
+            "consumo_medio": self.consumo_medio,
+            "status": self.status.value,
+        }
+    
+    @classmethod
+    def from_dict(cls, dados):
+        return cls(
+            placa = dados["placa"],
+            marca = dados["marca"],
+            modelo = dados["modelo"],
+            ano = dados["ano"],
+            quilometragem = dados["quilometragem"],
+            consumo_medio = dados["consumo_medio"],
+            status = StatusVeiculo(dados["status"]),
+        )
+
     def alterar_status(self, novo_status: StatusVeiculo) -> None:
         """
         Altera o status do veículo.

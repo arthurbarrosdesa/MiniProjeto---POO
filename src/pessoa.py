@@ -46,12 +46,14 @@ class Motorista(Pessoa):
     __str__().
     """
 
-    def __init__(self, cpf: str, nome: str, categoria_cnh: str, tempo_experiencia: int, disponibilidade: bool):
+    def __init__(self, cpf: str, nome: str, categoria_cnh: str, tempo_experiencia: int, disponibilidade: bool, historico_viagens: list | None = None):
         super().__init__(cpf, nome)
         self.__categoria_cnh = categoria_cnh
         self.__tempo_experiencia = tempo_experiencia
         self.__disponibilidade = disponibilidade
-        self.__historico_viagens = []
+        self.__historico_viagens = (
+            historico_viagens if historico_viagens is not None else []
+        )
 
     @property
     def categoria_cnh(self) -> str:
@@ -68,6 +70,27 @@ class Motorista(Pessoa):
     @property
     def historico_viagens(self) -> list:
         return self.__historico_viagens
+    
+    def to_dict(self) -> dict:
+        return {
+            "cpf": self.cpf,
+            "nome": self.nome,
+            "categoria_cnh": self.categoria_cnh,
+            "tempo_experiencia": self.tempo_experiencia,
+            "disponibilidade": self.disponibilidade,
+            "historico_viagens": self.historico_viagens,
+        }
+    
+    @classmethod
+    def from_dict(cls, dados):
+        return cls(
+            cpf = dados["cpf"],
+            nome = dados["nome"],
+            categoria_cnh = dados["categoria_cnh"],
+            tempo_experiencia = dados["tempo_experiencia"],
+            disponibilidade = dados["disponibilidade"],
+            historico_viagens = dados["historico_viagens"],
+        )
 
     def registrar_viagem(self, viagem: str) -> None:
         """
