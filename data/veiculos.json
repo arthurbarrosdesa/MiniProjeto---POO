@@ -1,0 +1,11 @@
+[
+    {
+        "placa": "ABC1D23",
+        "marca": "Toyota",
+        "modelo": "Corolla",
+        "ano": 2022,
+        "quilometragem": 15000,
+        "consumo_medio": 12.5,
+        "status": "ativo"
+    }
+]

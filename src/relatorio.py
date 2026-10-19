@@ -1,3 +1,7 @@
+from src.veiculo import Veiculo
+from src.pessoa import Motorista
+from src.alocacao import Alocacao
+
 class Relatorio:
 
     """
@@ -18,6 +22,10 @@ class Relatorio:
     relatorio_consumo(): list
     """
 
+    def __init__(self, motoristas, alocacoes):
+        self.__motoristas = motoristas
+        self.__alocacoes = alocacoes
+
     def ranking_eficiencia(self):
         pass
 
@@ -31,7 +39,18 @@ class Relatorio:
     
 
     def total_viagens_motorista(self):
-        pass
+        resultado = {}
+
+        for motorista in self.motoristas:
+            contador = 0
+
+            for alocacao in self.alocacoes:
+                if motorista.cpf == alocacao.motorista.cpf:
+                    contador += 1
+            
+            resultado[motorista.cpf] = contador
+            
+        return resultado    
     
 
     def quilometragem_media_tipo(self):

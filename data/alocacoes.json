@@ -1,0 +1,9 @@
+[
+    {
+        "cpf_motorista": "12345678900",
+        "placa_veiculo": "ABC1D23",
+        "origem": "Fortaleza",
+        "destino": "Caucaia",
+        "dist_percorrida": 20
+    }
+]

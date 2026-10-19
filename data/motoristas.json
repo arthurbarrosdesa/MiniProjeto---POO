@@ -1,0 +1,10 @@
+[
+    {
+        "cpf": "12345678900",
+        "nome": "Motorista Teste",
+        "categoria_cnh": "B",
+        "tempo_experiencia": 5,
+        "disponibilidade": true,
+        "historico_viagens": []
+    }
+]
