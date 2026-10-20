@@ -26,6 +26,14 @@ class Relatorio:
         self.__motoristas = motoristas
         self.__alocacoes = alocacoes
 
+    @property
+    def motoristas(self):
+        return self.__motoristas
+
+    @property
+    def alocacoes(self):
+        return self.__alocacoes
+
     def ranking_eficiencia(self):
         pass
 
