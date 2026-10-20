@@ -35,8 +35,29 @@ class Relatorio:
         return self.__alocacoes
 
     def ranking_eficiencia(self):
-        pass
+        veiculos = []
 
+        for alocacao in self.alocacoes:
+            veiculo = alocacao.veiculo
+
+            if veiculo not in veiculos:
+                veiculos.append(veiculo)
+        
+        veiculos = sorted(
+            veiculos,
+            key=lambda veiculo: veiculo.consumo_medio,
+            reverse=True
+        )
+
+        resultado = []
+
+        for veiculo in veiculos:
+            resultado.append({
+                "placa": veiculo.placa,
+                "consumo_medio": veiculo.consumo_medio
+            })
+
+        return resultado
 
     def emitir_relatorio(self):
         pass
