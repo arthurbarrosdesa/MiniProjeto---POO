@@ -6,5 +6,13 @@
         "tempo_experiencia": 5,
         "disponibilidade": true,
         "historico_viagens": []
+    },
+    {
+        "cpf": "12345678901",
+        "nome": "Joao Silva",
+        "categoria_cnh": "B",
+        "tempo_experiencia": 5,
+        "disponibilidade": true,
+        "historico_viagens": []
     }
 ]

@@ -11,8 +11,8 @@ def test_criar_veiculo():
        "Toyota",
        "Corolla",
        2022,
-       10000,
-       12.5
+       12.5,
+       10000
        )
 
     assert veiculo.placa == "ABC-1234"
@@ -28,8 +28,8 @@ def test_status_padrao_ativo():
         "Honda",
         "Civic",
         2023,
-        5000,
-        11.0
+        11.0,
+        5000
         )
 
     assert veiculo.status == StatusVeiculo.ATIVO
@@ -40,8 +40,8 @@ def test_alterar_status():
         "Ford",
         "Fiesta",
         2020,
-        30000,
-        10.0
+        10.0,
+        30000
         )
 
     veiculo.alterar_status(StatusVeiculo.MANUTENCAO)
@@ -54,8 +54,8 @@ def test_atualizar_quilometragem():
         "Volkswagen",
         "Gol",
         2021,
-        20000,
-        11.5
+        11.5,
+        20000
         )
 
     veiculo.atualizar_quilometragem(25000)
@@ -68,8 +68,8 @@ def test_registrar_evento():
         "Chevrolet",
         "Onix",
         2024,
-        10000,
-        13.0
+        13.0,
+        10000
         )
 
     veiculo.registrar_evento("Revisão realizada")
@@ -82,8 +82,8 @@ def test_veiculos_iguais_pela_placa():
         "Toyota",
         "Corolla",
         2022,
-        10000,
-        12.5
+        12.5,
+        10000
         )
 
     veiculo2 = Veiculo(
@@ -91,8 +91,8 @@ def test_veiculos_iguais_pela_placa():
         "Honda",
         "Civic",
         2023,
-        5000,
-        11.0
+        11.0,
+        5000
         )
 
     assert veiculo1 == veiculo2
@@ -103,8 +103,8 @@ def test_comparar_veiculos_por_quilometragem():
         "Toyota",
         "Corolla",
         2022,
-        10000,
-        12.5
+        12.5,
+        10000
         )
 
     veiculo2 = Veiculo(
@@ -112,8 +112,8 @@ def test_comparar_veiculos_por_quilometragem():
         "Honda",
         "Civic",
         2023,
-        20000,
-        11.0
+        11.0,
+        20000
         )
 
     assert veiculo1 < veiculo2
@@ -124,8 +124,8 @@ def test_iterar_historico_eventos():
         "Fiat",
         "Argo",
         2023,
-        15000,
-        12.0
+        12.0,
+        15000
         )
 
     veiculo.registrar_evento("Troca de óleo")
@@ -141,8 +141,8 @@ def test_nao_permitir_quilometragem_negativa():
         "Ford",
         "Ka",
         2020,
-        10000,
-        13.0
+        13.0,
+        10000
         )
 
     with pytest.raises(ValueError):
@@ -154,8 +154,8 @@ def test_str_veiculo():
         "Toyota",
         "Corolla",
         2022,
-        10000,
-        12.5
+        12.5,
+        10000
         )
 
     resultado = str(veiculo)
@@ -170,8 +170,8 @@ def test_repr_veiculo():
         "Honda",
         "Civic",
         2023,
-        5000,
-        11.0
+        11.0,
+        5000
         )
 
     resultado = repr(veiculo)
@@ -186,8 +186,8 @@ def test_carro_herda_de_veiculo():
         "Toyota",
         "Corolla",
         2022,
-        10000,
-        12.5
+        12.5,
+        10000
         )
 
     assert isinstance(carro, Veiculo)
@@ -198,8 +198,8 @@ def test_moto_herda_de_veiculo():
         "Honda",
         "CG 160",
         2024,
-        5000,
-        35.0
+        35.0,
+        5000
         )
 
     assert isinstance(moto, Veiculo)
@@ -210,8 +210,8 @@ def test_caminhao_herda_de_veiculo():
         "Volvo",
         "FH 540",
         2023,
-        50000,
-        2.5
+        2.5,
+        50000
         )
 
     assert isinstance(caminhao, Veiculo)
@@ -222,16 +222,16 @@ def test_historico_eventos_inicialmente_vazio():
         "Fiat",
         "Uno",
         2020,
-        30000,
-        14.0
+        14.0,
+        30000
         )
 
     assert veiculo.historico_eventos == []
 
 def test_nao_criar_veiculo_com_quilometragem_negativa():
     with pytest.raises(ValueError):
-        Veiculo("ABC1234", "Fiat", "Uno", 2020, -100, 12.0)
+        Veiculo("ABC1234", "Fiat", "Uno", 2020, 12.0, -100)
 
 def test_nao_criar_veiculo_com_consumo_invalido():
     with pytest.raises(ValueError):
-        Veiculo("DEF5678", "Ford", "Ka", 2021, 10000, 0)
+        Veiculo("DEF5678", "Ford", "Ka", 2021, 0, 10000)

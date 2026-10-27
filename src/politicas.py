@@ -1,3 +1,6 @@
+from src.veiculo import Carro, Moto, Caminhao
+from src.pessoa import Motorista
+
 class Politicas:
 
     """
@@ -29,8 +32,13 @@ class Politicas:
         pass
 
 
-    def verificar_cnh(self):
-        pass
+    def verificar_cnh(self, motorista : Motorista, veiculo : Veiculo) -> bool:
+        compat_cnh = {
+            "carro": ["B"],
+            "moto": ["A"],
+            "caminhao": ["C", "D", "E"],
+        }
+        
+        categorias = compat_cnh.get(veiculo.tipo, [])
 
-
-
+        return motorista.categoria_cnh.upper() in categorias

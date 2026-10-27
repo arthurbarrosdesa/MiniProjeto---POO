@@ -1,5 +1,6 @@
-from .veiculo import Veiculo, StatusVeiculo
-from .pessoa import Motorista
+from src.veiculo import Veiculo, StatusVeiculo
+from src.pessoa import Motorista
+from src.politicas import Politicas
 
 class Alocacao:
 
@@ -23,6 +24,9 @@ class Alocacao:
         if dist_percorrida < 0:
             raise ValueError("A distância percorrida não pode ser negativa.")
         self.__dist_percorrida = dist_percorrida
+    
+    def __str__(self) -> str:
+        return f"Motorista: {self.__motorista.nome}; CPF motorista: {self.__motorista.cpf}; Placa veículo: {self.__veiculo.placa}; Viagem: {self.__origem} -> {self.__destino}; Distância percorrida: {self.__dist_percorrida}."
     
     @property
     def motorista(self) -> Motorista:
@@ -72,10 +76,13 @@ class Alocacao:
         )
 
     def realizar_viagem(self):
+        politicas = Politicas()
         if not self.__motorista.disponibilidade:
             raise ValueError("Motorista indisponível")
         if self.__veiculo.status != StatusVeiculo.ATIVO:
             raise ValueError("Veículo inativo ou em manutenção.")
+        if not politicas.verificar_cnh(self.__motorista, self.__veiculo):
+            raise ValueError("Categoria CNH incompatível com o veículo.")
         self.__veiculo.atualizar_quilometragem(self.__dist_percorrida)
         self.__motorista.registrar_viagem(f"Viagem: {self.__origem} -> {self.__destino}; Distância percorrida: {self.__dist_percorrida}; Placa do veículo: {self.__veiculo.placa}.")
         

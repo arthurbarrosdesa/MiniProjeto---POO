@@ -48,8 +48,8 @@ class Veiculo:
     iter(): Iterator.
     """
 
-    def __init__(self, placa: str, marca: str, modelo: str, ano: int, quilometragem: float, 
-                 consumo_medio: float, status: StatusVeiculo = StatusVeiculo.ATIVO):
+    def __init__(self, placa: str, marca: str, modelo: str, ano: int, consumo_medio: float,
+                 quilometragem: float = 0, status: StatusVeiculo = StatusVeiculo.ATIVO):
         self.__placa = placa
         self.__marca = marca
         self.__modelo = modelo
@@ -182,7 +182,9 @@ class Carro(Veiculo):
     <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
 
     """
-    pass
+    @property
+    def tipo(self) -> str:
+        return "carro"
 
 
 class Moto(Veiculo):
@@ -193,7 +195,9 @@ class Moto(Veiculo):
     <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
 
     """
-    pass
+    @property
+    def tipo(self) -> str:
+        return "moto"
 
 
 class Caminhao(Veiculo):
@@ -204,4 +208,6 @@ class Caminhao(Veiculo):
     <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
 
     """
-    pass
+    @property
+    def tipo(self) -> str:
+        return "caminhao"
