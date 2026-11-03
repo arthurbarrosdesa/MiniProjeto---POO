@@ -43,11 +43,11 @@ class Veiculo:
     atualizar_quilometragem(): void;
     registrar_evento(): void;
     atualizar_consumo_medio(): void;
-    str(): str;
-    repr(): str;
-    eq(): bool;
-    lt(): bool;
-    iter(): Iterator.
+    __str__(): str;
+    __repr__(): str;
+    __eq__(): bool;
+    __lt__(): bool;
+    __iter__(): Iterator.
     """
 
     def __init__(self, placa: str, marca: str, modelo: str, ano: int, consumo_medio: float,
@@ -178,7 +178,13 @@ class Veiculo:
     
 
     def __str__(self) -> str:
-        return f"Veículo: {self.marca} {self.modelo} ({self.ano}) - Placa: {self.placa} - Quilometragem: {self.quilometragem} km - Consumo Médio: {self.consumo_medio} km/L - Status: {self.status.value}"
+        return (
+            f"Veículo: {self.marca} {self.modelo} ({self.ano}) - "
+            f"Placa: {self.placa} - "
+            f"Quilometragem: {self.quilometragem} km - "
+            f"Consumo Médio: {self.consumo_medio} km/L - "
+            f"Status: {self.status.value}"
+            )
 
     def __repr__(self) -> str:
         return f"Veiculo(placa={self.placa!r}, marca={self.marca!r}, modelo={self.modelo!r}, ano={self.ano}, quilometragem={self.quilometragem}, consumo_medio={self.consumo_medio}, status={self.status!r})"
@@ -202,7 +208,7 @@ class Carro(Veiculo, ManutenivelMixin, AbastecivelMixin):
     """
     Classe "Carro" armazena os dados específicos para carros.
 
-    <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
+    <Essa classe herda a estrutura e os comportamentos de Veiculo e dos Mixins, sem atributos ou métodos específicos adicionais>
 
     """
     @property
@@ -215,7 +221,7 @@ class Moto(Veiculo, ManutenivelMixin, AbastecivelMixin):
     """
     Classe "Moto" armazena os dados específicos para motos.
 
-    <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
+    <Essa classe herda a estrutura e os comportamentos de Veiculo e dos Mixins, sem atributos ou métodos específicos adicionais>
 
     """
     @property
@@ -228,7 +234,7 @@ class Caminhao(Veiculo, ManutenivelMixin, AbastecivelMixin):
     """
     Classe "Caminhao" armazena os dados específicos para caminhões.
 
-    <Atualmente, essa classe herda a estrutura e os comportamentos de Veiculo, sem atributos ou métodos específicos adicionais>
+    <Essa classe herda a estrutura e os comportamentos de Veiculo e dos Mixins, sem atributos ou métodos específicos adicionais>
 
     """
     @property

@@ -1,3 +1,5 @@
+from src.excecoes import AbastecimentoInvalidoError
+
 class AbastecivelMixin:
 
     """
@@ -6,7 +8,7 @@ class AbastecivelMixin:
 
     def registrar_abastecimento(self, abastecimento) -> None:
         if abastecimento.veiculo is not self:
-            raise ValueError("O abastecimento não pertence a este veículo.")
+            raise AbastecimentoInvalidoError("O abastecimento não pertence a este veículo.")
 
         self.registrar_evento(abastecimento)
 

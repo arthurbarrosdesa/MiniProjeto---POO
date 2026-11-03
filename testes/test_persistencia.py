@@ -2,12 +2,30 @@ from src.veiculo import Veiculo
 from src.pessoa import Motorista
 from src.alocacao import Alocacao
 from src.persistencia_json import (
-    salvar_dados,
     carregar_dados,
+    JsonRepository
 )
 import tempfile
 from pathlib import Path
 import json
+import pytest
+from src.excecoes import RepositorioError
+repositorio = JsonRepository()
+
+def test_carregar_json_invalido(tmp_path):
+    arquivo = tmp_path / "dados_invalidos.json"
+    arquivo.write_text("{ conteúdo inválido }", encoding="utf-8")
+
+    with pytest.raises(RepositorioError):
+        carregar_dados(Veiculo, arquivo)
+
+def test_salvar_dados_com_objeto_invalido(tmp_path):
+    arquivo = tmp_path / "dados.json"
+
+    objeto = object()
+
+    with pytest.raises(RepositorioError):
+        repositorio.salvar([objeto], arquivo)
 
 
 veiculo = Veiculo(
@@ -40,9 +58,9 @@ with tempfile.TemporaryDirectory() as pasta:
     caminho_motoristas = Path(pasta) / "motoristas.json"
     caminho_alocacoes = Path(pasta) / "alocacoes.json"
 
-    salvar_dados([veiculo], caminho_veiculos)
-    salvar_dados([motorista], caminho_motoristas)
-    salvar_dados([alocacao], caminho_alocacoes)
+    repositorio.salvar([veiculo], caminho_veiculos)
+    repositorio.salvar([motorista], caminho_motoristas)
+    repositorio.salvar([alocacao], caminho_alocacoes)
 
     veiculos_carregados = carregar_dados(Veiculo, caminho_veiculos)
     motoristas_carregados = carregar_dados(Motorista, caminho_motoristas)

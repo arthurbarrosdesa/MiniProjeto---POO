@@ -13,6 +13,7 @@ class Alocacao:
     Distância percorrida.
 
     Métodos:
+    __str__();
     realizar_viagem( ).
     """
 
@@ -26,7 +27,12 @@ class Alocacao:
         self.__dist_percorrida = dist_percorrida
 
     def __str__(self) -> str:
-        return f"Motorista: {self.__motorista.nome}; CPF motorista: {self.__motorista.cpf}; Placa veículo: {self.__veiculo.placa}; Viagem: {self.__origem} -> {self.__destino}; Distância percorrida: {self.__dist_percorrida}."
+        return (
+            f"Motorista: {self.__motorista.nome} ({self.__motorista.cpf})\n"
+            f"Placa veículo: {self.__veiculo.placa}\n"
+            f"Viagem: {self.__origem} -> {self.__destino}\n"
+            f"Distância percorrida: {self.__dist_percorrida}."
+            )
 
     @property
     def motorista(self) -> Motorista:

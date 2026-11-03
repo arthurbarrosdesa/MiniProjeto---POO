@@ -8,7 +8,8 @@ class Pessoa:
 
     Métodos:
     __str__();
-    __repr__().
+    __repr__();
+    atualizar_nome().
     """
 
     def __init__(self, cpf: str, nome: str):
@@ -49,6 +50,7 @@ class Motorista(Pessoa):
     Métodos:
     registrar_viagem();
     atualizar_disponibilidade();
+    atualizar_dados();
     __str__().
     """
 
@@ -134,4 +136,9 @@ class Motorista(Pessoa):
         self.__tempo_experiencia = novo_tempo_experiencia
 
     def __str__(self) -> str:
-        return f"Motorista: {self.nome} (CPF: {self.cpf}) - Categoria CNH: {self.categoria_cnh} - Experiência: {self.tempo_experiencia} anos - Disponível: {'Sim' if self.disponibilidade else 'Não'}"
+        return (
+            f"Motorista: {self.nome} (CPF: {self.cpf}) - "
+            f"Categoria CNH: {self.categoria_cnh} - "
+            f"Experiência: {self.tempo_experiencia} anos - "
+            f"Disponível: {'Sim' if self.disponibilidade else 'Não'}"
+            )

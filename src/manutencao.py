@@ -1,5 +1,6 @@
 from datetime import datetime
 from src.veiculo import Veiculo
+from src.excecoes import ManutencaoInvalidaError
 
 class Manutencao:
 
@@ -12,15 +13,18 @@ class Manutencao:
     Custo;
     Descrição;
     Veiculo relacionado.
+
+    Métodos:
+    __str__().
     """
 
     def __init__(self, data: datetime, tipo_manu: str, custo: float, descricao: str, veiculo: Veiculo, quilometragem: float = None):
         if not isinstance(data, datetime):
             raise TypeError("Data deve ser um objeto datetime.")
         if tipo_manu not in ("preventiva", "corretiva"):
-            raise ValueError("Manutenção deve ser preventiva ou corretiva.")
+            raise ManutencaoInvalidaError("Manutenção deve ser preventiva ou corretiva.")
         if custo < 0:
-            raise ValueError("Custo não pode ser negativo.")
+            raise ManutencaoInvalidaError("Custo não pode ser negativo.")
         if not isinstance(veiculo, Veiculo):
             raise TypeError("Veículo deve ser um objeto Veiculo.")
         self.__data = data

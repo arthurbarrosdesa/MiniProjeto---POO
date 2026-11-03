@@ -3,6 +3,8 @@ from src.pessoa import Motorista
 import json
 from pathlib import Path
 from src.manutencao import Manutencao
+from src.excecoes import AlocacaoInvalidaError, PoliticaNaoAtendidaError
+
 
 class Politicas:
 
@@ -40,13 +42,13 @@ class Politicas:
 
     def verificar_alocacao(self, motorista: Motorista, veiculo: Veiculo):
         if not motorista.disponibilidade:
-            raise ValueError("Motorista indisponível")
+            raise AlocacaoInvalidaError("Motorista indisponível")
 
         if veiculo.status != StatusVeiculo.ATIVO:
-            raise ValueError("Veículo inativo ou em manutenção.")
+            raise AlocacaoInvalidaError("Veículo inativo ou em manutenção.")
 
         if not self.verificar_cnh(motorista, veiculo):
-            raise ValueError("Categoria CNH incompatível com o veículo.")
+            raise PoliticaNaoAtendidaError("Categoria CNH incompatível com o veículo.")
 
         return True
 
@@ -77,3 +79,4 @@ class Politicas:
         categorias = compat_cnh.get(veiculo.tipo, [])
 
         return motorista.categoria_cnh.upper() in categorias
+

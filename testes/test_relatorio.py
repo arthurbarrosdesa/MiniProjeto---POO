@@ -47,8 +47,9 @@ alocacao = Alocacao(
 
 motoristas = [motorista1, motorista2]
 alocacoes = [alocacao]
+veiculos = [veiculo1, veiculo2]
 
-relatorio = Relatorio(motoristas, alocacoes)
+relatorio = Relatorio(motoristas, alocacoes, veiculos)
 resultado = relatorio.total_viagens_motorista()
 
 print(resultado)

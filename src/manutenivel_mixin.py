@@ -1,3 +1,5 @@
+from src.excecoes import ManutencaoInvalidaError
+
 class ManutenivelMixin:
 
     """
@@ -6,7 +8,7 @@ class ManutenivelMixin:
 
     def registrar_manutencao(self, manutencao) -> None:
         if manutencao.veiculo is not self:
-            raise ValueError("A manutenção não pertence a este veículo.")
+            raise ManutencaoInvalidaError("A manutenção não pertence a este veículo.")
 
         self.registrar_evento(manutencao)
 
