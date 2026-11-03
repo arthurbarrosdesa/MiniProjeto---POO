@@ -1,5 +1,6 @@
 from enum import Enum
-
+from src.manutenivel_mixin import ManutenivelMixin
+from src.abastecivel_mixin import AbastecivelMixin
 
 class StatusVeiculo(Enum):
 
@@ -41,6 +42,7 @@ class Veiculo:
     alterar_status(novo_status: StatusVeiculo): void;
     atualizar_quilometragem(): void;
     registrar_evento(): void;
+    atualizar_consumo_medio(): void;
     str(): str;
     repr(): str;
     eq(): bool;
@@ -101,6 +103,7 @@ class Veiculo:
 
     def to_dict(self) -> dict:
         return {
+            "tipo": getattr(self, "tipo", "veiculo"),
             "placa": self.placa,
             "marca": self.marca,
             "modelo": self.modelo,
@@ -109,10 +112,18 @@ class Veiculo:
             "consumo_medio": self.consumo_medio,
             "status": self.status.value,
         }
-    
+
     @classmethod
     def from_dict(cls, dados):
-        return cls(
+        tipos = {
+            "carro": Carro,
+            "moto": Moto,
+            "caminhao": Caminhao,
+        }
+
+        classe = tipos.get(dados.get("tipo"), Veiculo)
+
+        return classe(
             placa = dados["placa"],
             marca = dados["marca"],
             modelo = dados["modelo"],
@@ -144,7 +155,7 @@ class Veiculo:
             raise ValueError("A quilometragem não pode ser negativa.")
         self.__quilometragem += quilom_viagem
 
-    def registrar_evento(self, evento: str) -> None:
+    def registrar_evento(self, evento) -> None:
         """
         Registra um evento relacionado ao veículo.
 
@@ -153,6 +164,12 @@ class Veiculo:
         """
         # Implementação para registrar o evento (Futuramente será armazenado no banco de dados. Atualmente é registrado numa lista.)
         self.__historico_eventos.append(evento)
+
+    def atualizar_consumo_medio(self, novo_consumo: float):
+        if novo_consumo <= 0:
+            raise ValueError("O consumo médio deve ser maior que zero.")
+
+        self.__consumo_medio = novo_consumo
 
     def __str__(self) -> str:
         return f"Veículo: {self.marca} {self.modelo} ({self.ano}) - Placa: {self.placa} - Quilometragem: {self.quilometragem} km - Consumo Médio: {self.consumo_medio} km/L - Status: {self.status.value}"
@@ -174,7 +191,7 @@ class Veiculo:
         return iter(self.__historico_eventos)
 
 
-class Carro(Veiculo):
+class Carro(Veiculo, ManutenivelMixin, AbastecivelMixin):
 
     """
     Classe "Carro" armazena os dados específicos para carros.
@@ -187,7 +204,7 @@ class Carro(Veiculo):
         return "carro"
 
 
-class Moto(Veiculo):
+class Moto(Veiculo, ManutenivelMixin, AbastecivelMixin):
 
     """
     Classe "Moto" armazena os dados específicos para motos.
@@ -200,7 +217,7 @@ class Moto(Veiculo):
         return "moto"
 
 
-class Caminhao(Veiculo):
+class Caminhao(Veiculo, ManutenivelMixin, AbastecivelMixin):
 
     """
     Classe "Caminhao" armazena os dados específicos para caminhões.

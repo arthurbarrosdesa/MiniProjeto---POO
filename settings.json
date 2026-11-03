@@ -1,0 +1,19 @@
+{
+    "limite_km_revisao_preventiva": 10000,
+
+    "faixa_consumo": {
+        "minimo": 5.0,
+        "maximo": 30.0
+    },
+
+    "custos_manutencao": {
+        "preventiva": 300.0,
+        "corretiva": 700.0
+    },
+
+    "categorias_cnh": {
+        "carro": ["B"],
+        "moto": ["A"],
+        "caminhao": ["C", "D", "E"]
+    }
+}

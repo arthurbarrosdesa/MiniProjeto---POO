@@ -70,7 +70,7 @@ class Motorista(Pessoa):
     @property
     def historico_viagens(self) -> list:
         return self.__historico_viagens
-    
+
     def to_dict(self) -> dict:
         return {
             "cpf": self.cpf,
@@ -80,7 +80,7 @@ class Motorista(Pessoa):
             "disponibilidade": self.disponibilidade,
             "historico_viagens": self.historico_viagens,
         }
-    
+
     @classmethod
     def from_dict(cls, dados):
         return cls(
