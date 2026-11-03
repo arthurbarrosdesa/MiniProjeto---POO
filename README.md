@@ -318,3 +318,73 @@ classDiagram
     Relatorio --> Alocacao : contabiliza
 ```
 ```
+## Como executar o projeto
+
+### Requisitos
+
+- Python 3 instalado;
+- Git (opcional, para clonar o repositório);
+- Pytest para executar os testes automatizados.
+
+### Preparação
+
+Clone o repositório e acesse a pasta do projeto:
+
+```bash
+git clone https://github.com/arthurbarrosdesa/MiniProjeto---POO.git
+cd MiniProjeto---POO
+```
+
+Instale o Pytest para executar os testes:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Executando o sistema
+
+O sistema funciona por meio de uma interface de linha de comando (CLI).
+
+Para visualizar os comandos disponíveis:
+
+```bash
+python main.py --help
+```
+
+Para cadastrar um veículo, utilize o comando abaixo como exemplo:
+
+```bash
+python main.py cadastrar-veiculo --tipo carro --placa ABC1234 --marca Toyota --modelo Corolla --ano 2022 --consumo-medio 12
+```
+
+Para listar os veículos cadastrados:
+
+```bash
+python main.py listar-veiculos
+```
+
+### Relatórios
+
+O sistema disponibiliza os seguintes relatórios:
+
+```bash
+python main.py relatorios eficiencia
+python main.py relatorios custos-manutencao
+python main.py relatorios viagens
+python main.py relatorios quilometragem
+python main.py relatorios consumo
+```
+
+### Testes automatizados
+
+Para executar os testes do projeto:
+
+```bash
+pytest -v
+```
+
+### Persistência dos dados
+
+Os dados cadastrados são armazenados em arquivos JSON na pasta `data/`, permitindo que as informações sejam recuperadas entre execuções do sistema.
+
+As configurações das regras de negócio são armazenadas no arquivo `settings.json`.
