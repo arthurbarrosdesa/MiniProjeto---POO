@@ -81,5 +81,6 @@ class Alocacao:
 
         self.__veiculo.atualizar_quilometragem(self.__dist_percorrida)
         self.__motorista.registrar_viagem(f"Viagem: {self.__origem} -> {self.__destino}; Distância percorrida: {self.__dist_percorrida}; Placa do veículo: {self.__veiculo.placa}.")
+        self.__veiculo.registrar_evento(f"Viagem: {self.__origem} -> {self.__destino}; Distância percorrida: {self.__dist_percorrida}; CPF do motorista: {self.__motorista.cpf}.")
 
-
+q

@@ -53,7 +53,12 @@ def carregar_alocacoes(motoristas, veiculos):
         return []
     with open(ARQUIVO_ALOCACOES, "r", encoding="utf-8") as arquivo:
         dados = json.load(arquivo)
-    return [Alocacao.from_dict(dado, motoristas, veiculos) for dado in dados]
+
+    alocacoes = [Alocacao.from_dict(dado, motoristas, veiculos) for dado in dados]
+    for alocacao in alocacoes:
+        alocacao.veiculo.registrar_evento(str(alocacao))
+    
+    return alocacoes
 
 def carregar_manutencoes(veiculos):
     if not Path(ARQUIVO_MANUTENCOES).exists():
@@ -75,6 +80,7 @@ def carregar_abastecimentos(veiculos):
 
     abastecimentos = [Abastecimento.from_dict(dado, veiculos) for dado in dados]
     for abastecimento in abastecimentos:
-        abastecimento.veiculo.registrar_abastecimento(abastecimento)
+        abastecimento.veiculo.registrar_evento(abastecimento)
 
     return abastecimentos
+    

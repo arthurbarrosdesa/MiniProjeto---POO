@@ -162,7 +162,6 @@ class Veiculo:
         Parâmetros:
         evento (str): Descrição do evento.
         """
-        # Implementação para registrar o evento (Futuramente será armazenado no banco de dados. Atualmente é registrado numa lista.)
         self.__historico_eventos.append(evento)
 
     def atualizar_consumo_medio(self, novo_consumo: float):
@@ -170,6 +169,13 @@ class Veiculo:
             raise ValueError("O consumo médio deve ser maior que zero.")
 
         self.__consumo_medio = novo_consumo
+    
+    def atualizar_placa(self, nova_placa: str) -> None:
+        if not nova_placa.strip():
+            raise ValueError("A placa não pode ser vazia.")
+
+        self.__placa = nova_placa
+    
 
     def __str__(self) -> str:
         return f"Veículo: {self.marca} {self.modelo} ({self.ano}) - Placa: {self.placa} - Quilometragem: {self.quilometragem} km - Consumo Médio: {self.consumo_medio} km/L - Status: {self.status.value}"

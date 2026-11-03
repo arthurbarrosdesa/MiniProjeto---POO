@@ -29,6 +29,12 @@ class Pessoa:
     def cpf(self) -> str:
         return self.__cpf
 
+    def atualizar_nome(self, novo_nome: str) -> None:
+        if not novo_nome.strip():
+            raise ValueError("O nome não pode ser vazio.")
+
+        self.__nome = novo_nome
+
 
 class Motorista(Pessoa):
     """
@@ -109,6 +115,23 @@ class Motorista(Pessoa):
         nova_disponibilidade (bool): Nova disponibilidade do motorista.
         """
         self.__disponibilidade = nova_disponibilidade
+    
+    def atualizar_dados(
+        self,
+        novo_nome: str,
+        nova_categoria_cnh: str,
+        novo_tempo_experiencia: int
+    ) -> None:
+
+        if not nova_categoria_cnh.strip():
+            raise ValueError("A categoria da CNH não pode ser vazia.")
+
+        if novo_tempo_experiencia < 0:
+            raise ValueError("O tempo de experiência não pode ser negativo.")
+
+        self.atualizar_nome(novo_nome)
+        self.__categoria_cnh = nova_categoria_cnh
+        self.__tempo_experiencia = novo_tempo_experiencia
 
     def __str__(self) -> str:
         return f"Motorista: {self.nome} (CPF: {self.cpf}) - Categoria CNH: {self.categoria_cnh} - Experiência: {self.tempo_experiencia} anos - Disponível: {'Sim' if self.disponibilidade else 'Não'}"
