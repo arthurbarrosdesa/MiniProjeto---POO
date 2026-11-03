@@ -77,7 +77,7 @@ class Alocacao:
 
     def realizar_viagem(self):
         politicas = Politicas()
-        politicas.verificar_alocacao()
+        politicas.verificar_alocacao(self.motorista, self.veiculo)
 
         self.__veiculo.atualizar_quilometragem(self.__dist_percorrida)
         self.__motorista.registrar_viagem(f"Viagem: {self.__origem} -> {self.__destino}; Distância percorrida: {self.__dist_percorrida}; Placa do veículo: {self.__veiculo.placa}.")

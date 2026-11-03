@@ -19,7 +19,7 @@ class Abastecimento:
     calcular_cons_medio()
     """
 
-    def __init__(self, data: datetime, tipo_comb: str, litros: float, valor_pago: float, veiculo: Veiculo, quilometragem: float):
+    def __init__(self, data: datetime, tipo_comb: str, litros: float, valor_pago: float, veiculo: Veiculo, quilometragem: float | None = None):
         if not isinstance(data, datetime):
             raise TypeError("Data deve ser um objeto datetime.")
         if litros <= 0:
@@ -28,14 +28,16 @@ class Abastecimento:
             raise ValueError("Valor pago não pode ser negativo.")
         if not isinstance(veiculo, Veiculo):
             raise TypeError("Veículo deve ser um objeto Veiculo.")
-        if quilometragem < 0:
-            raise ValueError("Quilometragem não pode ser negativa.")
 
         self.__data = data
         self.__tipo_comb = tipo_comb
         self.__litros = litros
         self.__valor_pago = valor_pago
         self.__veiculo = veiculo
+        quilometragem = quilometragem if quilometragem is not None else veiculo.quilometragem
+        if quilometragem < 0:
+            raise ValueError("Quilometragem não pode ser negativa.")
+
         self.__quilometragem = quilometragem
 
     @property
